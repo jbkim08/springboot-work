@@ -13,6 +13,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.mysite.sbb.answer.Answer;
+import com.mysite.sbb.answer.AnswerRepository;
+import com.mysite.sbb.question.QuestionRepository;
+
 @SpringBootTest
 class SbbApplicationTests {
 
@@ -93,7 +97,7 @@ class SbbApplicationTests {
         assertTrue(oa.isPresent());
         Answer a = oa.get();
         assertEquals(2, a.getQuestion().getId());
-        System.out.println(a.getQuestion());
+        System.out.println(a.getQuestion()); //답변에 연결된 질문찾기
 
 		
 	}
