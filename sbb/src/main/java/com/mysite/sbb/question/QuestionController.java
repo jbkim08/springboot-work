@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class QuestionController {
 	
 	@Autowired
-	private QuestionRepository qRepo;
+	private QuestionService qService;
 
 	@RequestMapping("/question/list")
 	public String list(Model model) {
-		List<Question> qList = qRepo.findAll();
+		List<Question> qList = qService.getList();
 		model.addAttribute("qList", qList);
 		return "question_list";
 	}
