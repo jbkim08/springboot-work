@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,6 +22,8 @@ class SbbApplicationTests {
 	@Autowired
 	private AnswerRepository aRepo;
 	
+	
+	@Transactional
 	@Test
 	void testJPA() {
 		//데이터 입력
@@ -75,15 +79,21 @@ class SbbApplicationTests {
 //        this.qRepo.delete(q);
 //        assertEquals(1, this.qRepo.count());		
 		
-        Optional<Question> oq = this.qRepo.findById(2);
-        assertTrue(oq.isPresent());
-        Question q = oq.get();
-        
-        Answer a = new Answer();
-        a.setContent("두번째 답변입니다.");
-        a.setQuestion(q);  // 어떤 질문의 답변인지 알기위해서 Question 객체가 필요하다.
-        a.setCreateDate(LocalDateTime.now());
-        this.aRepo.save(a);        
+//        Optional<Question> oq = this.qRepo.findById(2);
+//        assertTrue(oq.isPresent());
+//        Question q = oq.get();
+//        
+//        Answer a = new Answer();
+//        a.setContent("두번째 답변입니다.");
+//        a.setQuestion(q);  // 어떤 질문의 답변인지 알기위해서 Question 객체가 필요하다.
+//        a.setCreateDate(LocalDateTime.now());
+//        this.aRepo.save(a);    
+		
+        Optional<Answer> oa = this.aRepo.findById(1);
+        assertTrue(oa.isPresent());
+        Answer a = oa.get();
+        assertEquals(2, a.getQuestion().getId());
+        System.out.println(a.getQuestion());
 
 		
 	}
