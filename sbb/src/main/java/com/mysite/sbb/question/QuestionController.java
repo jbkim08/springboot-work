@@ -10,20 +10,23 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/question")
 public class QuestionController {
 	
 	@Autowired
 	private QuestionService qService;
 
-	@RequestMapping("/question/list")
+	@RequestMapping("/list")
 	public String list(Model model) {
 		List<Question> qList = qService.getList();
 		model.addAttribute("qList", qList);
 		return "question_list";
 	}
 	
-	@GetMapping("/question/detail/{id}")
+	@GetMapping("/detail/{id}")
 	public String detail(Model model, @PathVariable("id") Integer id) {
+		Question question = this.qService.getQuestion(id);
+		model.addAttribute("question", question);
         return "question_detail";
     }
 }
