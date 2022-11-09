@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.mysite.sbb.DataNotFoundException;
@@ -20,7 +21,7 @@ public class QuestionService {
 	
 	//pageable객체로 원하는 페이지의 10개 질문을 가져옴
 	public Page<Question> getList(int page){
-		Pageable pageable = PageRequest.of(page, 10);
+		Pageable pageable = PageRequest.of(page, 10, Sort.by("createDate").descending());
 		return this.qRepo.findAll(pageable);
 	}
 	
