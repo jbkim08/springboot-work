@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.mysite.sbb.DataNotFoundException;
@@ -15,8 +18,10 @@ public class QuestionService {
 	@Autowired
 	private QuestionRepository qRepo;
 	
-	public List<Question> getList(){
-		return this.qRepo.findAll();
+	//pageable객체로 원하는 페이지의 10개 질문을 가져옴
+	public Page<Question> getList(int page){
+		Pageable pageable = PageRequest.of(page, 10);
+		return this.qRepo.findAll(pageable);
 	}
 	
 	public Question getQuestion(Integer id) {
