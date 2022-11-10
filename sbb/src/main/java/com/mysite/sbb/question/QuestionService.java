@@ -43,6 +43,14 @@ public class QuestionService {
         q.setAuthor(user);
         this.qRepo.save(q);			//리포지토리에 저장
     }
+    
+	// 질문을 수정하기
+    public void modify(Question question, String subject, String content) {
+    	question.setSubject(subject);				//제목
+    	question.setContent(content);				//내용
+    	question.setModifyDate(LocalDateTime.now()); //수정시간
+        this.qRepo.save(question);			//리포지토리에 저장(업데이트)
+    }
 }
 
 
