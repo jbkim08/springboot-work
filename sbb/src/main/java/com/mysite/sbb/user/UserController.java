@@ -3,6 +3,7 @@ package com.mysite.sbb.user;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,10 +34,19 @@ public class UserController {
                     "2개의 패스워드가 일치하지 않습니다.");
             return "signup_form";
         }
-
-        uService.create(userCreateForm.getUsername(), 
-                userCreateForm.getEmail(), userCreateForm.getPassword1());
-
+        
+        try {
+        	uService.create(userCreateForm.getUsername(), 
+                    userCreateForm.getEmail(), userCreateForm.getPassword1());
+		} catch (DataIntegrityViolationException e) {
+			bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
+			return "signup_form";
+		} catch (Exception e1) {
+			e1.printStackTrace(); //에러내용 콘솔출력
+			bindingResult.reject("signupFailed", e1.getMessage());
+			return "signup_form";
+		}
+        
         return "redirect:/";
     }
    
