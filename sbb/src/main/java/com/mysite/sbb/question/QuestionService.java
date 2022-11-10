@@ -51,6 +51,10 @@ public class QuestionService {
     	question.setModifyDate(LocalDateTime.now()); //수정시간
         this.qRepo.save(question);			//리포지토리에 저장(업데이트)
     }
+
+	public void delete(Question question) {
+		this.qRepo.delete(question);	
+	}
 }
 
 
