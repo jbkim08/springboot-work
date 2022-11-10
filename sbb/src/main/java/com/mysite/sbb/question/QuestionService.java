@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.mysite.sbb.DataNotFoundException;
+import com.mysite.sbb.user.SiteUser;
 
 @Service
 public class QuestionService {
@@ -34,11 +35,12 @@ public class QuestionService {
 		}
 	}
 	// 새로운 질문을 저장
-    public void create(String subject, String content) {
+    public void create(String subject, String content, SiteUser user) {
         Question q = new Question();
         q.setSubject(subject);				//제목
         q.setContent(content);				//내용
         q.setCreateDate(LocalDateTime.now()); //현재시간
+        q.setAuthor(user);
         this.qRepo.save(q);			//리포지토리에 저장
     }
 }

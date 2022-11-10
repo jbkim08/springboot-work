@@ -1,5 +1,7 @@
 package com.mysite.sbb.answer;
 
+import java.security.Principal;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.mysite.sbb.question.Question;
 import com.mysite.sbb.question.QuestionService;
+import com.mysite.sbb.user.SiteUser;
+import com.mysite.sbb.user.UserService;
 
 
 
@@ -24,16 +28,21 @@ public class AnswerController {
 	
 	@Autowired
 	private AnswerService aService;
+	
+	@Autowired
+	private UserService uService;
 
 	@PostMapping("/create/{id}")
 	public String createAnswer(Model model, @PathVariable("id") Integer id, 
-							@Valid AnswerForm answerForm, BindingResult bindingResult) {
+							@Valid AnswerForm answerForm, BindingResult bindingResult,
+							Principal principal) {
 		Question question = this.qService.getQuestion(id);
+		SiteUser siteUser = this.uService.getUser(principal.getName());
 		if(bindingResult.hasErrors()) {
 			model.addAttribute("question", question);
 			return "question_detail";
 		}		
-		this.aService.create(question, answerForm.getContent());
+		this.aService.create(question, answerForm.getContent(), siteUser);
 		return String.format("redirect:/question/detail/%s", id);
 	}
 

@@ -1,5 +1,7 @@
 package com.mysite.sbb.question;
 
+import java.security.Principal;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mysite.sbb.answer.AnswerForm;
+import com.mysite.sbb.user.SiteUser;
+import com.mysite.sbb.user.UserService;
 
 @Controller
 @RequestMapping("/question")
@@ -21,6 +25,9 @@ public class QuestionController {
 	
 	@Autowired
 	private QuestionService qService;
+	
+	@Autowired
+	private UserService uService;
 
 	@RequestMapping("/list")
 	public String list(Model model, @RequestParam(value = "page", 
@@ -45,11 +52,12 @@ public class QuestionController {
     
     @PostMapping("/create")
     public String questionCreate(@Valid QuestionForm questionForm, 
-    							 BindingResult bindingResult ) {
+    							 BindingResult bindingResult, Principal principal) {
     	if(bindingResult.hasErrors()) {
     		return "question_form";
-    	}    	
-        this.qService.create(questionForm.getSubject(), questionForm.getContent());
+    	}  
+    	SiteUser siteUser = this.uService.getUser(principal.getName());
+        this.qService.create(questionForm.getSubject(), questionForm.getContent(), siteUser);
         return "redirect:/question/list"; // 질문 저장후 질문목록으로 이동
     }
     
