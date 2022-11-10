@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.sec.busanit.mapper.UserMapper" >
+
+<!-- nickname 중복 체크 -->
+<select id="nickCheck" resultType="int">
+	select count(*) from user where nickname = #{nickname}
+</select>
+
+<sql id="searchUser">
+	username like CONCAT('%', #{word}, '%')
+	or nickname like CONCAT('%', #{word}, '%')
+	or role like CONCAT('%', #{word}, '%')
+</sql>
+
+<!-- userCount -->
+<select id="userCount" resultType="int">
+	select count(*) from user
+	<where>
+	<include refid="searchUser" />
+	</where>
+</select>
+
+<!-- findAll -->
+<select id="findAll" resultType="UserVO">
+	select * from user
+	<where>
+	<include refid="searchUser" />
+	</where> 
+	order by joindate desc limit #{pageStart}, #{pageSize}
+</select>
+
+<!-- update/delete -->
+<update id="update">
+	update user set password = #{password}, nickname = #{nickname}
+	where username = #{username}
+</update>
+
+<delete id="delete">
+	delete from user where username = #{username}
+</delete>
+
+<!-- detail -->
+<select id="detail" resultType="UserVO">
+	select * from user where username = #{username}
+</select>
+
+<!-- 회원 한명 삭제 -->
+<delete id="deleteOneUser">
+	delete from user where username = #{username}
+</delete>
+
+<!-- 회원 목록 조회 -->
+<select id="getList" resultType="UserVO">
+	select * from user where username is not null
+</select>
+
+<!-- 회원가입 -->
+<insert id="join">
+	insert into user(username, password, nickname, role)
+	values(#{username}, #{password}, #{nickname}, #{role})
+</insert>
+
+<!-- 아이디중복체크 -->
+<select id="idDupCheck" resultType="int">
+	select count(*) from user where username = #{username}
+</select>
+
+<!-- 아이디 중복체크-->
+<select id="idCheck" resultType="UserVO">
+	select * from user where username = #{username}
+</select>
+
+<!-- 로그인 처리 -->
+<select id="loginCheck" resultType="UserVO">
+	select * from user where username = #{username}
+</select>
+
+</mapper>

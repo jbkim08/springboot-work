@@ -1,0 +1,6 @@
+DBManager ->  ProductVO //->(productList ->ProductDAO)
+DB				jsp
+
+->ProductListServlet
+DB-jsp 연결
+
