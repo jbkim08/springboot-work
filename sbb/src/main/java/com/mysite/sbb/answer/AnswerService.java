@@ -39,5 +39,9 @@ public class AnswerService {
         answer.setModifyDate(LocalDateTime.now()); //수정일자 입력
         this.aRepo.save(answer);  				   //업데이트 
     }
+    
+    public void delete(Answer answer) {
+    	this.aRepo.delete(answer);
+    }
 
 }
