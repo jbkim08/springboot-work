@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.demo.mybatis.model.User;
 
@@ -19,4 +20,7 @@ public interface UserMapper {
 
 	@Insert("insert into user values(#{id}, #{name}, #{phone}, #{address})")
 	int insertUser(String id, String name, String phone, String address);
+	
+	@Update("Update user SET name=#{name}, phone=#{phone}, address=#{address} WHERE id=#{id}")
+	int updateUser(String id, String name, String phone, String address);
 }
