@@ -1,8 +1,12 @@
 package com.demo.mybatis.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.demo.mybatis.mapper.UserMapper;
@@ -20,4 +24,23 @@ public class UserController {
 		User user = userMapper.getUser(id);
 		return user;
 	}
+	
+	@GetMapping("/users")
+	public List<User> getUserList() {
+		List<User> userList = userMapper.getUserList();
+		return userList;
+	}
+	
+	@PostMapping("/users")
+	public void createUser( @RequestParam("id") String id, 
+							@RequestParam("name") String name,
+							@RequestParam("phone") String phone,
+							@RequestParam("address") String address  ) {	
+		
+		userMapper.insertUser(id, name, phone, address);		
+	}
 }
+
+
+
+
